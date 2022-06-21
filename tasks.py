@@ -24,25 +24,27 @@ class Task(db.Model):
         new_task = Task(name=_name, priority=_priority, description=_description)
         db.session.add(new_task)
         db.session.commit()
+        return new_task
 
     def get_all_tasks():
         return [Task.json(task) for task in Task.query.all()]
 
     def get_task_by_id(_id):
-        return [Task.json(Task.query.filter_by(id=_id).first())]
+        task = Task.query.filter_by(id=_id).first()
+
+        if not task:
+            raise ValueError("No task id : " + str(_id))
+
+        return [Task.json(task)]
 
     def get_task_by_priority(_priority):
-
         return [Task.json(task) for task in Task.query.filter_by(priority=_priority).all()]
-        # for task in tasks:
-        #     json_task
 
-        # print (jsonify({'Task': tasks}))
-
-        return tasks
 
     def update_task(_id, _name, _priority, _description):
         task_to_update = Task.query.filter_by(id=_id).first()
+        if not task_to_update:
+            raise ValueError("No task id : " + str(_id))
 
         modif=False
 
@@ -62,6 +64,8 @@ class Task(db.Model):
             task_to_update.last_update = datetime.datetime.now()
 
         db.session.commit()
+
+        return task_to_update.json()
 
     def delete_task(_id):
         Task.query.filter_by(id=_id).delete()

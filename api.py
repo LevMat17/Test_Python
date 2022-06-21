@@ -3,9 +3,11 @@ from tasks import *
 @app.route("/task", methods=["POST"])
 def add_task():
     request_data = request.get_json()
-    Task.add_task(request_data["name"], request_data["priority"],
+    task = Task.add_task(request_data["name"], request_data["priority"],
                     request_data["description"])
-    response = Response("Task added", 201, mimetype='application/json')
+    # response = Response(str(jsonify({'Task', task})), 201, mimetype='application/json')
+    # return response
+    response = make_response(jsonify(Task= task.json()), 201)
     return response
 
 @app.route("/tasks", methods=["GET"])
@@ -13,18 +15,23 @@ def get_all_tasks():
 
     priority = int(request.args.get('priority'))
     # temporality = request.args.get('temporality')
-    print (priority)
+
     if priority:
         tasks = Task.get_task_by_priority(priority)
     else :
         tasks = Task.get_all_tasks()
 
-    return jsonify({'Task': tasks})
+    return make_response(jsonify(Task=tasks), 200)
 
 @app.route("/task/<int:id>", methods=["GET"])
 def get_task(id):
-    return_value = Task.get_task(id)
-    return jsonify(return_value)
+    try:
+        task = Task.get_task_by_id(id)
+        response = make_response(jsonify(Task=task), 200)
+    except ValueError as e:
+        response = make_response(jsonify(error=str(e)), 404)
+
+    return response
 
 @app.route("/task/<int:id>", methods=["DELETE"])
 def delete_task(id):
@@ -35,17 +42,13 @@ def delete_task(id):
 @app.route("/task/<int:id>", methods=["PUT"])
 def update_task(id):
     request_data = request.get_json()
-    Task.update_task(id, request_data['name'], request_data['priority'], request_data['description'])
-    response = Response("Task Updated", status=200, mimetype='application/json')
+    try:
+        task = Task.update_task(id, request_data['name'], request_data['priority'], request_data['description'])
+        response = make_response(jsonify(Task=task), 200)
+    except ValueError as e:
+        response = make_response(jsonify(error=str(e)), 404)
+
     return response
-
-
-@app.route("/swagger")
-def swag():
-    swag = swagger(app)
-    swag['info']['version'] = "1.0"
-    swag['info']['title'] = "My API"
-    return jsonify(swag)
 
 
 if __name__ == "__main__":
