@@ -12,8 +12,8 @@ def add_task():
 
 @app.route("/tasks", methods=["GET"])
 def get_all_tasks():
-
-    priority = int(request.args.get('priority'))
+    priority = None
+    # priority = int(request.args.get('priority'))
     # temporality = request.args.get('temporality')
 
     if priority:
@@ -41,9 +41,20 @@ def delete_task(id):
 
 @app.route("/task/<int:id>", methods=["PUT"])
 def update_task(id):
-    request_data = request.get_json()
+    request_update = request.get_json()
     try:
-        task = Task.update_task(id, request_data['name'], request_data['priority'], request_data['description'])
+        new_name=None
+        new_priority=None
+        new_description=None
+
+        if "name" in request_update:
+            new_name = request_update['name']
+        if "priority" in request_update:
+            new_priority = request_update['priority']
+        if "description" in request_update:
+            new_description = request_data['description']
+
+        task = Task.update_task(id, new_name, new_priority, new_description)
         response = make_response(jsonify(Task=task), 200)
     except ValueError as e:
         response = make_response(jsonify(error=str(e)), 404)
