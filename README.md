@@ -28,6 +28,7 @@ Task register's app
 
 
 3. Makefile :
+  * make
   - all:
       install launch_api launch_test
 
