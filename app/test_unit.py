@@ -6,7 +6,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_post(self):
         headers = {'Content-Type': 'application/json'}
-        body = '{"name":"Task Post","priority":"1","description":"task 1 test"}'
+        body = '{"name":"Task Post","priority":1,"description":"task 1 test"}'
 
         result = req.post("http://127.0.0.1:5000/task", body, headers=headers)
         self.assertEqual(result.status_code, 201)
@@ -14,8 +14,8 @@ class TestStringMethods(unittest.TestCase):
 
     def test_get_all(self):
         headers = {'Content-Type': 'application/json'}
-        body1 = '{"name":"Task Test Get All 1", "priority":"1","description":"task get test"}'
-        body2 = '{"name":"Task Test Get All 2", "priority":"1","description":"task get test"}'
+        body1 = '{"name":"Task Test Get All 1", "priority":1,"description":"task get test"}'
+        body2 = '{"name":"Task Test Get All 2", "priority":1,"description":"task get test"}'
         result = req.post("http://127.0.0.1:5000/task", body1, headers=headers)
         result = req.post("http://127.0.0.1:5000/task", body2, headers=headers)
 
@@ -26,7 +26,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_get_OK(self):
         headers = {'Content-Type': 'application/json'}
-        body = '{"name":"Task Test Get OK", "priority":"1","description":"task get test"}'
+        body = '{"name":"Task Test Get OK", "priority":1,"description":"task get test"}'
         result = req.post("http://127.0.0.1:5000/task", body, headers=headers)
 
         id = result.json()["Task"]["id"]
@@ -47,7 +47,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_put_OK(self):
         headers = {'Content-Type': 'application/json'}
-        body = '{"name":"Task Test Put OK", "priority":"1","description":"task get test"}'
+        body = '{"name":"Task Test Put OK", "priority":1,"description":"task get test"}'
         result = req.post("http://127.0.0.1:5000/task", body, headers=headers)
 
         id = result.json()["Task"]["id"]
@@ -73,7 +73,7 @@ class TestStringMethods(unittest.TestCase):
 
 
     def test_delete(self):
-        body = '{"name":"Task Test Delete", "priority":"1","description":"task get test"}'
+        body = '{"name":"Task Test Delete", "priority":1,"description":"task get test"}'
         headers = {'Content-Type': 'application/json'}
 
         result_post = req.post("http://127.0.0.1:5000/task", body, headers=headers)
