@@ -20,7 +20,7 @@ Task register's app
     - DELETE /task/{id}
 
   * example :
-      curl -X POST http://127.0.0.1:5000/task -H "Content-Type:application/json" -d '{"name":"Task example","priority":"1","description":"task 1 test"}'
+      - curl -X POST http://127.0.0.1:5000/task -H "Content-Type:application/json" -d '{"name":"Task example","priority":"1","description":"task 1 test"}'
 
 
 2. Unit Test :
