@@ -1,4 +1,4 @@
-from tasks import *
+from task import *
 
 @app.route("/task", methods=["POST"])
 def add_task():
