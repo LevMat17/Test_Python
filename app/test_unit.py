@@ -19,7 +19,7 @@ class TestStringMethods(unittest.TestCase):
         result = req.post("http://127.0.0.1:5000/task", body1, headers=headers)
         result = req.post("http://127.0.0.1:5000/task", body2, headers=headers)
 
-        result = req.get("http://127.0.0.1:5000/tasks", headers=headers)
+        result = req.get("http://127.0.0.1:5000/task", headers=headers)
 
         self.assertNotEqual(len(result.json()["Task"]), 1)
         print("Get All : OK")

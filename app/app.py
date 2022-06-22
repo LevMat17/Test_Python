@@ -10,7 +10,7 @@ def add_task():
     response = make_response(jsonify(Task= task.json()), 201)
     return response
 
-@app.route("/tasks", methods=["GET"])
+@app.route("/task", methods=["GET"])
 def get_all_tasks():
 
     print(request.args.get("sortby"))
