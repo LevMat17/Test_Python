@@ -29,16 +29,16 @@ Task register's app
 
 3. Makefile :
   * make
-  - all:
+    - all:
       install launch_api launch_test
 
-  - install:
+    - install:
 	    pip3 install -r requirements.txt
 
-  - launch_api:
+    - launch_api:
 	    python3 app/app.py
 
-  - launch_test:
+    - launch_test:
 	    python3 app/test_unit.py
 
 
