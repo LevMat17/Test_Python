@@ -26,6 +26,12 @@ class Task(db.Model):
         db.session.commit()
         return new_task
 
+    def get_value(value):
+        return task.get(value)
+
+    def get_priority():
+        return task.get("priority")
+
     def get_all_tasks():
         return [Task.json(task) for task in Task.query.all()]
 
@@ -37,9 +43,9 @@ class Task(db.Model):
 
         return [Task.json(task)]
 
-    def get_task_by_priority(_priority):
-        return [Task.json(task) for task in Task.query.filter_by(priority=_priority).all()]
-
+    def get_task_by_value(value):
+        tasks = [Task.json(task) for task in Task.query.order_by(value).all()]
+        return tasks
 
     def update_task(_id, _name, _priority, _description):
         task_to_update = Task.query.filter_by(id=_id).first()

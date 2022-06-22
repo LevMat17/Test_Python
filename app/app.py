@@ -12,16 +12,19 @@ def add_task():
 
 @app.route("/tasks", methods=["GET"])
 def get_all_tasks():
-    priority = None
-    # priority = int(request.args.get('priority'))
-    # temporality = request.args.get('temporality')
 
-    if priority:
-        tasks = Task.get_task_by_priority(priority)
-    else :
+    print(request.args.get("sortby"))
+    if request.args.get("sortby"):
+        if request.args.get("sortby") == "priority" or request.args.get("sortby") == "creation_date" or request.args.get("sortby") == "last_update":
+            tasks = Task.get_task_by_value(request.args.get("sortby"))
+            response = make_response(jsonify(Task=tasks), 200)
+        else :
+            response = make_response("no key with value : " + request.args.get("sortby"), 400)
+    else:
         tasks = Task.get_all_tasks()
+        response = make_response(jsonify(Task=tasks), 200)
 
-    return make_response(jsonify(Task=tasks), 200)
+    return response
 
 @app.route("/task/<int:id>", methods=["GET"])
 def get_task(id):
@@ -52,7 +55,7 @@ def update_task(id):
         if "priority" in request_update:
             new_priority = request_update['priority']
         if "description" in request_update:
-            new_description = request_data['description']
+            new_description = request_update['description']
 
         task = Task.update_task(id, new_name, new_priority, new_description)
         response = make_response(jsonify(Task=task), 200)
