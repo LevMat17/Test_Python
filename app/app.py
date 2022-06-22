@@ -5,8 +5,6 @@ def add_task():
     request_data = request.get_json()
     task = Task.add_task(request_data["name"], request_data["priority"],
                     request_data["description"])
-    # response = Response(str(jsonify({'Task', task})), 201, mimetype='application/json')
-    # return response
     response = make_response(jsonify(Task= task.json()), 201)
     return response
 

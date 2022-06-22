@@ -1,11 +1,8 @@
-
-import uuid
 import datetime
 
 from settings import *
 import json
 
-db = SQLAlchemy(app)
 
 class Task(db.Model):
     __tablename__ = 'task'
